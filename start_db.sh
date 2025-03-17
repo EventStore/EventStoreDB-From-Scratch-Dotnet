@@ -2,8 +2,39 @@
 ###########################################################
 #
 # Docker management script for Eventstore Training Classes
+# Version 1.0
+# Contributors: Tom Hanlon, Jean-Marc Julien, Stephen Tung
+#
+# Internal, KurrentDB information:
+# The "golden image" for this script lives at
+# https://github.com/EventStore/EduSvcsMaster/blob/main/course_assets/start_db_shell_script/start_db.sh
+# If you are using this script in your examples
+# please source it from there
+# 
+# Purpose: 
+# This script will run a docker container in a GitHub 
+# CodeSpace instance and that is it's primary purpose
+# When ran a second time it will kill the current instance and
+# Start a fresh instance, your data will be lost, this is 
+# intended behavior
+#
+# Secondary Purpose:
+# In an environment with docker installed this script should 
+# Function locally as well. 
 #
 ###########################################################
+
+
+###########################################################
+# Set EventStoreDB version
+# Version is set to whatever the LTS version is at
+# the time this script was last tested
+# If you wanted to manually change (at your own risk)
+# see, https://hub.docker.com/r/eventstore/eventstore/tags
+#
+###########################################################
+
+db_version=eventstore/eventstore:24.10.1
 
 #################################################################################
 # Some bash notes for the curious
@@ -65,7 +96,7 @@ docker run \
        -d \
        --name esdb-node \
        -p 2113:2113 \
-       eventstore/eventstore:lts \
+       $db_version \
        --insecure \
        --run-projections=All \
        --enable-atom-pub-over-http
